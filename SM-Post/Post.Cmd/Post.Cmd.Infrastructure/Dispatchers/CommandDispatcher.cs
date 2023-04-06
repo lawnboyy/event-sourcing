@@ -19,9 +19,10 @@ public class CommandDispatcher : ICommandDispatcher
 
   public async Task SendAsync(BaseCommand command)
   {
-    if (_handlers.TryGetValue(command.GetType(), out Func<BaseCommand, Task> handler))
+    if (_handlers.TryGetValue(command.GetType(), out Func<BaseCommand, Task>? handler))
     {
-      await handler(command);
+      if (handler != null)
+        await handler(command);
     }
     else 
     {
