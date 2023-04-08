@@ -2,6 +2,7 @@ using CQRS.Core.Domain;
 using CQRS.Core.Events;
 using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Cmd.Domain.Aggregates;
 
 namespace Post.Cmd.Infrastructure.Stores;
@@ -9,10 +10,12 @@ namespace Post.Cmd.Infrastructure.Stores;
 public class EventStore : IEventStore
 {
   private readonly IEventStoreRepository _eventStoreRepository;
+  private readonly IEventProducer _eventProducer;
 
-  public EventStore(IEventStoreRepository eventStoreRepository)
+  public EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer)
   {
     _eventStoreRepository = eventStoreRepository;
+    _eventProducer = eventProducer;
   }
 
   public async Task<List<BaseEvent>> GetEventsAsync(Guid aggregateId)
@@ -54,6 +57,12 @@ public class EventStore : IEventStore
       };
 
       await _eventStoreRepository.SaveAsync(eventModel);
+
+      // IMPORTANT: This is not a transaction. If the event publishing fails, the event will still be persisted.
+      // In a production environment we'd want to wrap the event persistence and the event publishing in a transaction (a mongo transaction in this case).
+      // If the event publishing fails, we'd want to rollback the event persistence.
+      var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC") ?? "SocialMediaEvents";
+      await _eventProducer.ProduceAsync(topic, @event);
     }
   }
 }

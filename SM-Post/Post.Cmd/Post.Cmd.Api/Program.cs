@@ -9,6 +9,8 @@ using Post.Cmd.Infrastructure.Handlers;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Infrastructure.Dispatchers;
 using Confluent.Kafka;
+using CQRS.Core.Producers;
+using Post.Cmd.Infrastructure.Producers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection("MongoDBConfig"));
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection("ProducerConfig"));
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
