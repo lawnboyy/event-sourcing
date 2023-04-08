@@ -8,11 +8,13 @@ using Post.Cmd.Infrastructure.Stores;
 using Post.Cmd.Infrastructure.Handlers;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Infrastructure.Dispatchers;
+using Confluent.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection("MongoDBConfig"));
+builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection("ProducerConfig"));
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
