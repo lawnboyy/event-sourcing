@@ -14,5 +14,5 @@ public class EventModel
   public string AggregateType { get; set; } = string.Empty;
   public int Version { get; set; }
   public string EventType { get; set; } = string.Empty;
-  public BaseEvent? EventData { get; set; }
+  public BaseEvent EventData { get; set; } = null!;
 }
