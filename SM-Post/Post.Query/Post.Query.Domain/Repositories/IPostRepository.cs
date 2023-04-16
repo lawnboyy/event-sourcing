@@ -13,6 +13,6 @@ public interface IPostRepository
   Task<PostEntity> GetByIdAsync(Guid postId);
   Task<List<PostEntity>> GetAllAsync();
   Task<List<PostEntity>> GetByAuthorAsync(string author);
-  Task<List<PostEntity>> GetWithLikesAsync(DateTime date);
-  Task<List<PostEntity>> GetWithCommentsAsync(DateTime date);
+  Task<List<PostEntity>> GetWithLikesAsync(int numberOfLikes);
+  Task<List<PostEntity>> GetWithCommentsAsync();
 }
