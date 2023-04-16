@@ -11,8 +11,20 @@ using Post.Cmd.Infrastructure.Dispatchers;
 using Confluent.Kafka;
 using CQRS.Core.Producers;
 using Post.Cmd.Infrastructure.Producers;
+using MongoDB.Bson.Serialization;
+using CQRS.Core.Events;
+using Post.Common.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BsonClassMap.RegisterClassMap<BaseEvent>();
+BsonClassMap.RegisterClassMap<PostCreatedEvent>();
+BsonClassMap.RegisterClassMap<MessageUpdatedEvent>();
+BsonClassMap.RegisterClassMap<PostLikedEvent>();
+BsonClassMap.RegisterClassMap<CommentAddedEvent>();
+BsonClassMap.RegisterClassMap<CommentUpdatedEvent>();
+BsonClassMap.RegisterClassMap<CommentRemovedEvent>();
+BsonClassMap.RegisterClassMap<PostRemovedEvent>();
 
 // Add services to the container.
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection("MongoDBConfig"));
