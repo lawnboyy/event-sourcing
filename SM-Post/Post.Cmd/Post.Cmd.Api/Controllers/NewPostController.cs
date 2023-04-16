@@ -32,7 +32,7 @@ public class NewPostController : ControllerBase
 
       await _commandDispatcher.SendAsync(command);
 
-      return StatusCode(StatusCodes.Status201Created, new NewPostResponse { Message = "New post creation request completed successfully!" });
+      return StatusCode(StatusCodes.Status201Created, new NewPostResponse { Id = id, Message = "New post creation request completed successfully!" });
     }
     catch (InvalidOperationException ex)
     {
