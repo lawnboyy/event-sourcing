@@ -11,9 +11,15 @@ public abstract class AggregateRoot
 
   public int Version { get; set; } = -1;
 
-  public IEnumerable<BaseEvent> GetUncommittedChanges() => _changes;
+  public IEnumerable<BaseEvent> GetUncommittedChanges()
+  {
+    return _changes;
+  }
 
-  public void MarkChangesAsCommitted() => _changes.Clear();
+  public void MarkChangesAsCommitted()
+  {
+    _changes.Clear();
+  }
 
   private void ApplyChange(BaseEvent @event, bool isNew)
   {
@@ -31,7 +37,10 @@ public abstract class AggregateRoot
     }
   }
 
-  protected void RaiseEvent(BaseEvent @event) => ApplyChange(@event, true);
+  protected void RaiseEvent(BaseEvent @event)
+  {
+    ApplyChange(@event, true);
+  }
 
   public void ReplayEvents(IEnumerable<BaseEvent> events)
   {
