@@ -50,8 +50,8 @@ public class EventHandler : IEventHandler
   {
     var comment = new CommentEntity
     {
-      CommentId = @event.Id,
       PostId = @event.Id,
+      CommentId = @event.CommentId,
       CommentDate = @event.CommentDate,
       Comment = @event.Comment,
       Username = @event.Username,
