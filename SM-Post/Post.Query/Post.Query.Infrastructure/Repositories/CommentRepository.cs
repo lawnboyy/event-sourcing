@@ -17,6 +17,12 @@ public class CommentRepository : ICommentRepository
   public async Task CreateAsync(CommentEntity comment)
   {
     using DatabaseContext context = _contextFactory.CreateDbContext();
+    var parentPost = await context.Posts.FindAsync(comment.PostId);
+    if (parentPost == null)
+    {
+      throw new Exception("Post not found");
+    }
+    comment.Post = parentPost;
     context.Comments.Add(comment);
 
     _ = await context.SaveChangesAsync();
