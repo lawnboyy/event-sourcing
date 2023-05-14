@@ -16,10 +16,17 @@ public class PostRepository : IPostRepository
 
   public async Task CreateAsync(PostEntity post)
   {
-    using DatabaseContext context = _contextFactory.CreateDbContext();
-    context.Posts.Add(post);
-    
-    _ = await context.SaveChangesAsync();
+    try
+    {
+      using DatabaseContext context = _contextFactory.CreateDbContext();
+      context.Posts.Add(post);
+
+      _ = await context.SaveChangesAsync();
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine(ex.Message);
+    }
   }
 
   public async Task DeleteAsync(Guid postId)

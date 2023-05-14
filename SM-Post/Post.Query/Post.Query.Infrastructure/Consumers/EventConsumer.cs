@@ -54,6 +54,10 @@ public class EventConsumer : IEventConsumer
       {
         Console.WriteLine($"Error occurred: {e.Error.Reason}");
       }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Error occurred: {ex.Message}");
+      }
     }
   } 
 }

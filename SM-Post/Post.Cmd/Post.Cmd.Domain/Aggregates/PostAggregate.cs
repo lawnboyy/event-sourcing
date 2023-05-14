@@ -26,7 +26,7 @@ public class PostAggregate : AggregateRoot
       Id = id,
       Author = author,
       Message = message,
-      DatePosted = DateTime.Now
+      DatePosted = DateTime.Now.ToUniversalTime()
     });
   }
 
